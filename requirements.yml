@@ -1,0 +1,4 @@
+- src: geerlingguy.solr
+  name: solr
+- src: geerlingguy.java
+  name: java

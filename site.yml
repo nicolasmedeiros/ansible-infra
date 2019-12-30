@@ -1,0 +1,28 @@
+# file: site.yml
+
+# - name: Debug hostvars to 
+#   hosts: all
+#   gather_facts: true
+#   tasks:
+#     - debug: var=inventory_hostname
+#     - debug: var=hostvars[inventory_hostname]
+#     - name: Dump ansible_default_ipv4 variable output 2
+#       copy:
+#         dest: /tmp/ansible_default_ipv4.yaml
+#         content: '{{ hostvars }}'
+#     - fail:
+
+- hosts: all
+  tasks:
+    - name: installing repo for Java 8 in Ubuntu
+      apt_repository: repo='ppa:openjdk-r/ppa'
+- hosts: all
+  roles:
+    - common
+    - role: java
+      when: "ansible_os_family == 'Debian'"
+      java_packages:
+        - openjdk-8-jdk
+- hosts: solr_servers
+  roles:
+    - role: solr

@@ -1,0 +1,2 @@
+[solr_servers]
+solr-host-01 ansible_host=142.93.65.68
