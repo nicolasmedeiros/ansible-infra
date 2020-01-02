@@ -12,16 +12,36 @@
 #         content: '{{ hostvars }}'
 #     - fail:
 
+
+# Install repo for Java 8 in Ubuntu for all hosts
 - hosts: all
   tasks:
     - name: installing repo for Java 8 in Ubuntu
       apt_repository: repo='ppa:openjdk-r/ppa'
+
+
+# Install Java 8 in all Ubuntu hosts
 - hosts: all
   roles:
     - role: java
       when: "ansible_os_family == 'Debian'"
       java_packages:
         - openjdk-8-jdk
+
+# Install solr on solr hosts
 - hosts: solr_servers
   roles:
     - role: solr
+
+# Install Zookeeper in ZK hosts
+- hosts: zookeeper_servers
+  roles:
+    - role: zookeeper
+  pre_tasks:
+    - name: installing required libs
+      apt:
+        pkg: "{{ item }}"
+        state: present
+      with_items:
+        - net-tools
+        - netcat
