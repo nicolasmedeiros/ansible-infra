@@ -1,0 +1,5 @@
+- hosts: solr_servers
+  tasks:
+    - copy:
+        src: /Users/nicolasmedeiros/dev/blc/rails/solr/configsets
+        dest: /var/solr/configsets
