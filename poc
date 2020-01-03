@@ -3,4 +3,4 @@ solr-host-01 ansible_host=142.93.65.68
 solr-host-02 ansible_host=138.197.105.149
 
 [zookeeper_servers]
-zk-host-01 ansible_host=64.225.117.88
+zk-host ansible_host=64.225.117.88

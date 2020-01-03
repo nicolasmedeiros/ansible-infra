@@ -24,7 +24,7 @@ solr_xmx: "512M"
 solr_timezone: "UTC"
 
 solr_cores:
-  - collection1
+  - default
 
 solr_config_file: /etc/default/{{ solr_service_name }}.in.sh
 
