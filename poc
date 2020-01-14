@@ -1,7 +1,0 @@
-[solr_servers]
-solr-host-01 ansible_host=111.111.111.001
-solr-host-02 ansible_host=111.111.111.002
-solr7-host-01 ansible_host=111.111.111.003
-
-[zookeeper_servers]
-zk-host ansible_host=111.111.111.004
