@@ -1,0 +1,37 @@
+---
+  - import_tasks: user.yml
+    when: nginx_create_user
+
+  - name: Ensure nginx conf directories exist.
+    file:
+      path: "{{ nginx_main_template.conf_file_location | default('/etc/nginx/') }}"
+      state: directory
+
+  - name: Install Prerequisites
+    apt: name={{ item }} update_cache=yes state=latest force_apt_get=yes
+    loop: [ 'aptitude' ]
+
+  - name: Install Packages
+    apt: name={{ item }} update_cache=yes state=latest
+    loop: [ 'nginx' ]
+
+  - name: Setup nginx conf
+    template:
+      src: "nginx.conf.j2"
+      dest: "{{ nginx_main_template.conf_file_location | default('/etc/nginx/') }}sites-available/{{ nginx_main_template.conf_file_name | default('nginx.conf') }}"
+    with_items: "{{ solr_hosts }}"
+    notify: start nginx
+
+  - name: Enables new site
+    file:
+      src: "{{ nginx_main_template.conf_file_location | default('/etc/nginx/') }}sites-available/{{ nginx_main_template.conf_file_name | default('nginx.conf') }}"
+      dest: "{{ nginx_main_template.conf_file_location | default('/etc/nginx/') }}sites-enabled/{{ nginx_main_template.conf_file_name | default('nginx.conf') }}"
+      state: link
+    notify: reload nginx
+  
+  - name: Removes "default" site
+    file:
+      path: "/etc/nginx//sites-enabled/default"
+      state: absent
+    notify: reload nginx
+    

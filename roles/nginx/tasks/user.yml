@@ -1,0 +1,11 @@
+---
+- name: Ensure nginx_user group exists.
+  group: 
+    name: "{{ nginx_main_template.user }}"
+    state: present
+
+- name: Ensure nginx_user exists.
+  user:
+    name: "{{ nginx_main_template.user }}"
+    state: present
+    group: "{{ nginx_main_template.user }}"

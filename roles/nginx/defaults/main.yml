@@ -1,0 +1,12 @@
+nginx_create_user: true
+
+nginx_main_template:
+  template_file: nginx.conf.j2
+  conf_file_name: nginx.conf
+  conf_file_location: /etc/nginx/
+  user: nginx
+
+http_port: "80"
+http_host: "111.111.111.007"
+
+solr_hosts: [{host: 111.111.111.003,  port: 8983}, {host: 111.111.111.004,  port: 8983}]

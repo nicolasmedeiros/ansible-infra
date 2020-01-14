@@ -1,0 +1,12 @@
+[solr_servers]
+solr-host-01 ansible_host=111.111.111.001
+solr-host-02 ansible_host=111.111.111.002
+solr6-host-01 ansible_host=111.111.111.003 ansible_port=12121
+solr6-host-02 ansible_host=111.111.111.004 ansible_port=12121
+
+[zookeeper_servers]
+zk-host-01 ansible_host=111.111.111.005
+zk-host ansible_host=111.111.111.006 ansible_port=12121
+
+[balancer_servers]
+lb-host ansible_host=111.111.111.007 ansible_port=12121

@@ -45,3 +45,10 @@
       with_items:
         - net-tools
         - netcat
+
+
+# Install nginx in LB node
+- hosts: balancer_servers
+  become: true
+  roles:
+    - role: nginx

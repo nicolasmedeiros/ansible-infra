@@ -1,6 +1,6 @@
 - hosts: solr_servers
   tasks:
     - copy:
-        src: ../rails/solr/configsets/sunspot
+        src: ../../rails/solr/configsets/sunspot
         dest: /var/solr/configsets
         owner: solr

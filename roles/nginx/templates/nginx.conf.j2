@@ -1,0 +1,14 @@
+upstream solr_hosts {
+    {% for var in solr_hosts %}
+        server {{ var.host }}:{{ var.port }};
+    {% endfor %}
+}
+
+server {
+    listen {{ http_port }};
+    server_name {{ http_host }};
+
+    location / {
+        proxy_pass http://solr_hosts;
+    }
+}
