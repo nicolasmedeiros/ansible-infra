@@ -1,6 +1,7 @@
 - hosts: solr_servers
+  become: true
   tasks:
     - copy:
-        src: ../../rails/solr/configsets/sunspot
+        src: "{{ config_src }}"
         dest: /var/solr/configsets
         owner: solr

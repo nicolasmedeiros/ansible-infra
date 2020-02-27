@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!--
+   This is an example of a simple "solr.xml" file for configuring one or 
+   more Solr Cores, as well as allowing Cores to be added, removed, and 
+   reloaded via HTTP requests.
+
+   More information about options available in this configuration file, 
+   and Solr Core administration can be found online:
+   http://wiki.apache.org/solr/CoreAdmin
+-->
+
+<solr>
+
+  <int name="maxBooleanClauses">${solr.max.booleanClauses:1024}</int>
+  
+  <solrcloud>
+
+    <str name="host">${host:}</str>
+    <int name="hostPort">${jetty.port:8983}</int>
+    <str name="hostContext">${hostContext:solr}</str>
+
+    <bool name="genericCoreNodeNames">${genericCoreNodeNames:true}</bool>
+
+    <int name="zkClientTimeout">${zkClientTimeout:30000}</int>
+    <int name="distribUpdateSoTimeout">${distribUpdateSoTimeout:600000}</int>
+    <int name="distribUpdateConnTimeout">${distribUpdateConnTimeout:60000}</int>
+    <str name="zkCredentialsProvider">${zkCredentialsProvider:org.apache.solr.common.cloud.DefaultZkCredentialsProvider}</str>
+    <str name="zkACLProvider">${zkACLProvider:org.apache.solr.common.cloud.DefaultZkACLProvider}</str>
+
+  </solrcloud>
+
+  <shardHandlerFactory name="shardHandlerFactory"
+    class="HttpShardHandlerFactory">
+    <int name="socketTimeout">${socketTimeout:600000}</int>
+    <int name="connTimeout">${connTimeout:60000}</int>
+    <str name="shardsWhitelist">${solr.shardsWhitelist:}</str>
+  </shardHandlerFactory>
+
+{% if solr_backup_repository is defined %}
+  <backup>
+    <repository 
+      name="{{ solr_backup_repository.name }}" 
+      class="{{ solr_backup_repository.class }}" 
+      default="{{ solr_backup_repository.default }}">
+      {% for conf in solr_backup_repository.config %}
+      <{{ conf.type }} name="{{ conf.name }}">{{ conf.value }}</{{ conf.type }}>
+      {% endfor %}
+    </repository>
+  </backup>
+{% endif %}
+
+{% if solr_metrics is defined %}
+  <metrics>
+  {% if solr_metrics.hidden_props is defined %}
+    <hiddenSysProps>
+    {% for prop in solr_metrics.hidden_props %}
+      <str>{{ prop }}</str>
+    {% endfor %}
+    </hiddenSysProps>
+    {% if solr_metrics.reporters is defined %}
+    {% for reporter in solr_metrics.reporters %}
+    <reporter 
+      name="{{ reporter.name }}" 
+      {% if reporter.domain is defined %}
+      domain="{{ reporter.domain }}" 
+      {% endif %}
+      {% if reporter.group is defined %}
+      group="{{ reporter.group }}" 
+      {% endif %}
+      class="{{ reporter.class }}"
+      >
+      {% if reporter.config is defined %}
+      {% for config in reporter.config %}
+      <{{ config.type }} name="{{ config.name }}">{{ config.value }}</{{ config.type }}>
+      {% endfor %}
+      {% endif %}
+    </reporter>
+    {% endfor %}
+    {% endif %}
+  {% endif %}
+  </metrics>
+{% endif %}
+
+</solr>

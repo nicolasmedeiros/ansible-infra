@@ -18,18 +18,70 @@ solr_home: "/var/{{ solr_service_name }}"
 solr_connect_host: localhost
 solr_port: "8983"
 
+solr_log_dir: /var/log/solr
+solr_data_dir: "{{ solr_home }}/data"
+solr_collections_config_tmp_dir: /tmp/collections
+
+
 solr_xms: "256M"
 solr_xmx: "512M"
 
-solr_timezone: "UTC"
-
-solr_cores:
-  - default
-
-solr_config_file: /etc/default/{{ solr_service_name }}.in.sh
-
 # Enable restart solr handler
 solr_restart_handler_enabled: true
+
+# JVM
+solr_gc_tune: "-XX:NewRatio=3 \
+-XX:SurvivorRatio=4 \
+-XX:TargetSurvivorRatio=90 \
+-XX:MaxTenuringThreshold=8 \
+-XX:+UseG1GC \
+-XX:ConcGCThreads=4 \
+-XX:ParallelGCThreads=4 \
+-XX:+CMSScavengeBeforeRemark \
+-XX:PretenureSizeThreshold=64m \
+-XX:+UseCMSInitiatingOccupancyOnly \
+-XX:CMSInitiatingOccupancyFraction=50 \
+-XX:CMSMaxAbortablePrecleanTime=6000 \
+-XX:+CMSParallelRemarkEnabled \
+-XX:+ParallelRefProcEnabled \
+-XX:+UseTLAB"
+
+solr_timezone: "UTC"
+
+
+solr_metrics:
+  hidden_props:
+    - "javax.net.ssl.keyStorePassword"
+    - "javax.net.ssl.trustStorePassword"
+    - "basicauth"
+    - "zkDigestPassword"
+    - "zkDigestReadonlyPassword"
+  reporters:
+    - name: "jmx_metrics"
+      domain: jmx_exporter
+      class: "org.apache.solr.metrics.reporters.SolrJmxReporter"
+
+solr_cores:
+  - default_cloud
+
+solr_backup_repository:
+  name: local
+  class: org.apache.solr.core.backup.repository.LocalFileSystemRepository
+  default: "false"
+  config:
+    - name: "location"
+      value: "${solr.default.backup.path:}"
+      type: str
+
+# Logs
+solr_log_root_level: WARN
+solr_log_file_size: 500MB
+solr_log_max_backup_index: 9
+solr_log_config_file: log4j2.xml
+solr_log_file_name: solr.log
+solr_log_slow_queries_file_name: solr_slow_requests.log
+
+solr_config_file: /etc/default/{{ solr_service_name }}.in.sh
 
 # Used only for Solr < 5.
 solr_log_file_path: /var/log/solr.log

@@ -15,13 +15,15 @@
 
 # Install repo for Java 8 in Ubuntu for all hosts
 - hosts: all
+  become: true
   tasks:
     - name: installing repo for Java 8 in Ubuntu
       apt_repository: repo='ppa:openjdk-r/ppa'
 
 
 # Install Java 8 in all Ubuntu hosts
-- hosts: all
+- hosts: [solr_servers, zookeeper_servers] #all
+  become: true
   roles:
     - role: java
       when: "ansible_os_family == 'Debian'"
@@ -30,11 +32,13 @@
 
 # Install solr on solr hosts
 - hosts: solr_servers
+  become: true
   roles:
     - role: solr
 
 # Install Zookeeper in ZK hosts
 - hosts: zookeeper_servers
+  become: true
   roles:
     - role: zookeeper
   pre_tasks:

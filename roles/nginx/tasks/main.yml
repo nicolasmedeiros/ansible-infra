@@ -31,7 +31,7 @@
   
   - name: Removes "default" site
     file:
-      path: "/etc/nginx//sites-enabled/default"
+      path: "/etc/nginx/sites-enabled/default"
       state: absent
     notify: reload nginx
     

@@ -11,7 +11,12 @@ Windows: [Cygwin or Linux subsystem](https://geekflare.com/ansible-installation-
 
 
 ## Usage
-`poc`: is the inventory file. It can be named anything you like.  Here you would have all servers to be managed.
+~note: use private IP~
+*Important*:  in your inventory file, specify an entry named `zk-host-XY` - where `XY` is a number (01, 02, etc) - for each zookeeper host
+
+- Edit `http_host` and `solr_hosts` (use private ip) at: `/roles/nginx/defaults/main.yml` 
+- Edit `zookeeper_hosts` at `/roles/zookeeper/defaults/main.yml` using the private IP for each zookeeper machine
+
 
 requirements.yml specifies the requried roles for this project. To install them use:
 

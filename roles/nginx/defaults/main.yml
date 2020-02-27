@@ -7,6 +7,6 @@ nginx_main_template:
   user: nginx
 
 http_port: "80"
-http_host: "111.111.111.007"
+http_host: "10.132.70.235"
 
-solr_hosts: [{host: 111.111.111.003,  port: 8983}, {host: 111.111.111.004,  port: 8983}]
+solr_hosts: [{host: 10.132.91.183, port: 8983}, {host: 10.132.178.31, port: 8983}]

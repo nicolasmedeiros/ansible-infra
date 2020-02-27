@@ -49,18 +49,27 @@ zookeeper_max_rolling_log_file_count: 10
 
 # List of dict (i.e. {zookeeper_hosts:[{host:,id:},{host:,id:},...]})
 zookeeper_hosts:
-  - host: "{{inventory_hostname}}"
+  - host: 10.132.62.235 #64.225.48.38
+    name: "zk-host-01"
     id: 1
+  - host: 10.132.76.40 #64.225.48.42
+    name: "zk-host-02"
+    id: 2
+  - host: 10.132.50.46 #159.203.91.151
+    name: "zk-host-03"
+    id: 3
 
 # Dict of ENV settings to be written into the (optional) conf/zookeeper-env.sh
-zookeeper_env: {}
+zookeeper_env: {
+  ZK_QUORUM_LISTEN_ALL_IP: true
+}
 
 # Controls Zookeeper myid generation
 zookeeper_force_myid: true
 
 zookeeper_force_reinstall: false
 
-zookeeper_4lw_commands_whitelist: stat
+zookeeper_4lw_commands_whitelist: stat, ruok, conf, isro
 
 #
 # You can add more zookeper config options using zookeeper_config_map

@@ -1,6 +1,6 @@
 {% for server in zookeeper_hosts %}
 {% if server.host is defined %}
-{% if server.host == inventory_hostname %}
+{% if server.name == inventory_hostname %}
 {{ server.id }}
 {% endif %}
 {% else %}
