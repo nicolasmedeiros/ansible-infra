@@ -1,17 +1,20 @@
 The aim of this project is to keep track of the different Roles for BLC infra.
 
-v0.1: Solr, Java and Zookeper roles to create 
+v0.1: Solr, Java and Zookeper roles
 
 # Requirements
 Install Ansible:
+
 [Official guide](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
 OSX: [Via pip](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#latest-releases-via-pip)
+
 Windows: [Cygwin or Linux subsystem](https://geekflare.com/ansible-installation-windows/)
 
 
 ## Usage
-~note: use private IP~
+_note: use private IP_
+
 *Important*:  in your inventory file, specify an entry named `zk-host-XY` - where `XY` is a number (01, 02, etc) - for each zookeeper host
 
 - Edit `http_host` and `solr_hosts` (use private ip) at: `/roles/nginx/defaults/main.yml` 
@@ -41,7 +44,7 @@ Assuming that the inventory file is called `poc`
 `ansible-playbook site.yml -i poc -u root`
 
 Limit the application of the playbook to one host:
-`ansible-playbook site.yml -i poc -u root --limit solr7-host-01`
+`ansible-playbook site.yml -i poc -u root --limit solr-host-01`
 
   or to a group of hosts:
   
